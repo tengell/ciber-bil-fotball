@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = '1.1.7.RELEASE'
+        springBootVersion = '1.1.8.RELEASE'
     }
     repositories {
         mavenCentral()
@@ -14,7 +14,8 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
-apply plugin: 'spring-boot' 
+apply plugin: 'spring-boot'
+//apply plugin: 'war'
 
 jar {
     baseName = 'ciber-bil-fotball'
@@ -34,7 +35,7 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot-starter-thymeleaf")
     compile("org.springframework.boot:spring-boot-starter-actuator")
-    compile("org.zapodot:jackson-databind-java-optional")
+    compile("org.zapodot:jackson-databind-java-optional:2.4.1")
     testCompile("org.springframework.boot:spring-boot-starter-test")
     testCompile("com.jayway.jsonpath:json-path")
 }
@@ -45,6 +46,11 @@ eclipse {
          containers 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8'
     }
 }
+
+//war {
+//    baseName = 'gs-convert-jar-to-war'
+//    version =  '0.1.0'
+//}
 
 //For spring loaded hot swap feature
 idea {
