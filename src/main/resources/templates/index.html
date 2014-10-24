@@ -1,11 +1,67 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
 <head lang="en">
-    <meta charset="UTF-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>Hello</title>
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css"/>
+
+    <script src="/js/jquery-2.1.1.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+
 </head>
 <body>
-    <h1>Hei, Sveits!</h1>
-    <a href="/addPerson">Add Person</a>
+    <h1>Ciber BIL Fotball</h1>
+
+    <form action="/persons/save" method="POST">
+        <input type="text" name="firstName" value="Radamel" min="1" max="40"/>
+        <input type="text" name="lastName" value="Falcao" min="1" max="40"/>
+        <input type="date" name="dateOfBirth"/>
+        <input type="submit" value="Lagre"/>
+    </form>
+
+    <form action="/persons" method="GET">
+        <input type="submit" value="Alle spillere (json)"/>
+    </form>
+
+    <div class="row-fluid">
+        <div class="span8">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Fornavn</th>
+                    <th>Etternavn</th>
+                    <th>Fødselsdato</th>
+                    <th>Ant mål</th>
+                    <th>Ant gule</th>
+                    <th>Ant røde</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="person : ${persons}">
+                    <td th:text="${person.id}"></td>
+                    <td th:text="${person.firstName}"></td>
+                    <td th:text="${person.lastName}"></td>
+                    <td th:text="${person.dateOfBirth}"></td>
+                    <td th:text="${person.numOfGoals}"></td>
+                    <td th:text="${person.numOfYellowCards}"></td>
+                    <td th:text="${person.numOfRedCards}"></td>
+                    <!--<td>-->
+                        <!--<form id="${itemFormId}" action="/removeFromBasket" method="POST">-->
+                            <!--<input id="id" name="id" type="hidden" th:value="${basketItem.id}" />-->
+                            <!--<input type="submit" value="Remove" />-->
+                        <!--</form>-->
+                    <!--</td>-->
+                </tr>
+                </tbody>
+            </table>
+            <!--<div th:include="layout :: foot"></div>-->
+        </div>
+    </div>
 </body>
 </html>
