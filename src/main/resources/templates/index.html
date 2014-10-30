@@ -51,12 +51,11 @@
                     <td th:text="${person.numOfGoals}"></td>
                     <td th:text="${person.numOfYellowCards}"></td>
                     <td th:text="${person.numOfRedCards}"></td>
-                    <!--<td>-->
-                        <!--<form id="${itemFormId}" action="/removeFromBasket" method="POST">-->
-                            <!--<input id="id" name="id" type="hidden" th:value="${basketItem.id}" />-->
-                            <!--<input type="submit" value="Remove" />-->
-                        <!--</form>-->
-                    <!--</td>-->
+                    <td>
+                        <form th:action="@{/persons/delete/} + ${person.id}" th:method="delete">
+                            <input type="submit" value="Remove" />
+                        </form>
+                    </td>
                 </tr>
                 </tbody>
             </table>

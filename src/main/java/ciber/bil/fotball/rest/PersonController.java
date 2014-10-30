@@ -69,26 +69,20 @@ public class PersonController {
 		Person personToSave = createPerson(firstName, lastName, dateOfBirth);
 		personService.save(personToSave);
 
-		model.addAttribute("persons", allPersons());
-		
-		return "index";
+		return "redirect:/";
 	}
-
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Person> delete(@PathVariable String id) {
-
-	/*	try {
-			personService.delete(Long.valueOf(id));
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
-		}
-		if(personDeleted){*/
 		personService.delete(Long.valueOf(id));
 		return new ResponseEntity<Person>(HttpStatus.OK);
-//		}else{
-//			return new ResponseEntity<Person>(HttpStatus.NOT_FOUND);
-//		}
+	}
+
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+	public String deleteAndReturnToIndex(@PathVariable String id) {
+		personService.delete(Long.valueOf(id));
+		return "redirect:/";
 	}
 
 	private Person createPerson(String firstName, String lastName, String dateOfBirth) {
