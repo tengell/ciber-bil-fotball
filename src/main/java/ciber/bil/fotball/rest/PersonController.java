@@ -1,18 +1,17 @@
 package ciber.bil.fotball.rest;
 
-import ciber.bil.fotball.services.PersonService;
 import ciber.bil.fotball.model.entities.Person;
+import ciber.bil.fotball.services.PersonService;
 import ciber.bil.fotball.util.LambdaPersonBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.net.URI;
 import java.time.LocalDate;
 import java.util.Optional;
 
@@ -48,7 +47,7 @@ public class PersonController {
 			@RequestParam(value = "dateOfBirth", required = false) String dateOfBirth,
 			UriComponentsBuilder builder
 	) {
-		Person personToSave = createPerson(firstName, lastName, dateOfBirth);
+		Person personToSave = createPerson(firstName, lastName, Optional.ofNullable(dateOfBirth));
 		Person savedPerson = personService.save(personToSave);
 
 		HttpHeaders headers = new HttpHeaders();
@@ -63,10 +62,9 @@ public class PersonController {
 	public String savePersonAndReturnToIndexWithAllPersons(
 			@RequestParam(value = "firstName", required = true) String firstName,
 			@RequestParam(value = "lastName", required = true) String lastName,
-			@RequestParam(value = "dateOfBirth", required = false) String dateOfBirth,
-			Model model
+			@RequestParam(value = "dateOfBirth", required = false) String dateOfBirth
 	) {
-		Person personToSave = createPerson(firstName, lastName, dateOfBirth);
+		Person personToSave = createPerson(firstName, lastName, Optional.ofNullable(dateOfBirth));
 		personService.save(personToSave);
 
 		return "redirect:/";
@@ -85,13 +83,12 @@ public class PersonController {
 		return "redirect:/";
 	}
 
-	private Person createPerson(String firstName, String lastName, String dateOfBirth) {
+	private Person createPerson(String firstName, String lastName, Optional<String> dateOfBirth) {
 		return LambdaPersonBuilder.build(p -> {
 			p.setFirstName(firstName);
 			p.setLastName(lastName);
 			p.setDateOfBirth(
-					Optional.ofNullable(dateOfBirth)
-							.map(LocalDate::parse)
+					dateOfBirth.filter(s -> !StringUtils.isEmpty(s)).map(LocalDate::parse)
 			);
 		});
 	}

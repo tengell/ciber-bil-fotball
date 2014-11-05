@@ -66,9 +66,10 @@ public class Person {
 
 	@Override
 	public int hashCode() {
-		int result = firstName.hashCode();
-		result = 31 * result + lastName.hashCode();
-		result = 31 * result + dateOfBirth.hashCode();
+		int result = id != null ? id.hashCode() : 0;
+		result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
+		result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
+		result = 31 * result + (dateOfBirth != null ? dateOfBirth.hashCode() : 0);
 		result = 31 * result + numOfGoals;
 		result = 31 * result + numOfYellowCards;
 		result = 31 * result + numOfRedCards;
